@@ -10,8 +10,11 @@ public class Main_Controll : MonoBehaviour
     public GameObject trees;
     public GameObject outter_particle;
     private bool _ceiling;
+    private bool _lights_on;
 
     public GameObject dir_light;
+    public GameObject[] spheres;
+
     public float daylight_time;
     private float timer;
     // Start is called before the first frame update
@@ -19,6 +22,7 @@ public class Main_Controll : MonoBehaviour
     {
         cameras[0].enabled = true;
         _ceiling = true;
+        _lights_on = true;
         timer = 0.0f;
     }
 
@@ -31,7 +35,12 @@ public class Main_Controll : MonoBehaviour
             timer -= daylight_time;
         }
         //dir_light.transform.Rotate(Vector3.right * 360 * Time.deltaTime / daylight_time);
-        dir_light.transform.eulerAngles = Vector3.right * 360 * timer / daylight_time;
+
+        if (_lights_on) 
+        {
+            dir_light.transform.eulerAngles = Vector3.right * 360 * timer / daylight_time;
+        }
+        
 
     }
 
@@ -41,5 +50,20 @@ public class Main_Controll : MonoBehaviour
         upper_box.SetActive(_ceiling); 
         trees.SetActive(!_ceiling);
         outter_particle.SetActive(!_ceiling);
+    }
+
+    public void Add_daytime()
+    {
+        timer += daylight_time / 4;
+    }
+
+    public void Toggle_light()
+    {
+        _lights_on = !_lights_on;
+        dir_light.SetActive(_lights_on);
+        foreach (GameObject sphs in spheres) 
+        {
+            sphs.SetActive(_lights_on);
+        }
     }
 }
