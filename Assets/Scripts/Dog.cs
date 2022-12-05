@@ -38,7 +38,8 @@ public class Dog : MonoBehaviour
     {
         if (collision.collider.tag == "cat")
         { 
-            Debug.Log("123"); 
+            Debug.Log("Onhit");
+            collision.collider.gameObject.GetComponent<MainPlayerController>().Onhit(transform.position);
         }
     }
 

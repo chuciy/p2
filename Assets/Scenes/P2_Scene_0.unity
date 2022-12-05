@@ -2624,7 +2624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a84d0078f0b5004f8cc21b72c603d9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 5
+  rs: 6
   cur_state: 0
   player: {fileID: 1858164971}
   retrun_point: {fileID: 1357660633}
@@ -3304,6 +3305,11 @@ PrefabInstance:
     - target: {fileID: 65079961972077558, guid: aa2d47f95b34fbe4d9cbe095f13585b5,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65079961972077558, guid: aa2d47f95b34fbe4d9cbe095f13585b5,
+        type: 3}
+      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114021909445251090, guid: aa2d47f95b34fbe4d9cbe095f13585b5,
@@ -14562,6 +14568,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   isGround: 0
+  ishit: 0
+  blow_dir: {x: 0, y: 0, z: 0}
+  blow_force: 35
 --- !u!143 &1858164975
 CharacterController:
   m_ObjectHideFlags: 0

@@ -20,13 +20,25 @@ public class MainPlayerController : MonoBehaviour
     public LayerMask groundLayer;
     public bool isGround;
 
+    public bool ishit;
+    public Vector3 blow_dir;
+    public float blow_force;
+
+
     void Start()
     {
         cc = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
+        ishit = false;
     }
     void Update()
     {
+
+        if (ishit) 
+        {
+            cc.Move(blow_dir * Time.deltaTime);
+            return;
+        }
         //check on ground
         isGround = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
         if (isGround && velocity.y < 0){velocity.y = -1.0f;}
@@ -56,9 +68,21 @@ public class MainPlayerController : MonoBehaviour
             anim.SetTrigger("jump");
         }
 
-        
 
-        
+    }
 
+    public void Onhit(Vector3 enemy) 
+    {
+        Debug.Log("Onhit!");
+        blow_dir = Vector3.Normalize(transform.position - enemy) * blow_force;
+        ishit = true;
+        StartCoroutine(Recover());
+       
+    }
+
+    IEnumerator Recover()
+    {
+        yield return new WaitForSeconds(0.50f);
+        ishit = false;
     }
 }
