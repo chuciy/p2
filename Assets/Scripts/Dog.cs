@@ -12,10 +12,13 @@ public class Dog : MonoBehaviour
         Return
     }
 
+    public float speed;
+    public float rs;
     public MoveState cur_state;
     public GameObject player;
     public GameObject retrun_point;
     private Animator anim;
+    private Vector3 dir;
     void Start()
     {
         cur_state = MoveState.Idle;
@@ -49,24 +52,28 @@ public class Dog : MonoBehaviour
             switch (cur_state) 
             {
                 case MoveState.Idle:
-                    if (distance <= 3.0f) 
+                    if (distance <= 20.0f) 
                     {
                         Debug.Log("Attack");
                         cur_state = MoveState.Attack;
                     }
                     break;
                 case MoveState.Attack:
-                    if (distance >= 5.0f)
+                    if (distance >= 25.0f)
                     {
                         Debug.Log("Return");
                         cur_state = MoveState.Return;
                     }
                     break;
                 case MoveState.Return:
-                    if (d2origin <= 2.0f)
+                    if (d2origin <= 5.0f)
                     {
                         Debug.Log("Idle");
                         cur_state = MoveState.Idle;
+                    } else if (distance <= 15.0f) 
+                    {
+                        Debug.Log("Attack");
+                        cur_state = MoveState.Attack;
                     }
                     break;
                 default:
@@ -87,9 +94,19 @@ public class Dog : MonoBehaviour
                     break;
                 case MoveState.Attack:
                     anim.SetInteger("Walk", 1);
+                    dir = Vector3.Normalize(player.transform.position - transform.position);
+                    transform.position += dir * speed * Time.deltaTime;
+                    transform.rotation = Quaternion.Lerp(transform.rotation,
+                                                        Quaternion.LookRotation(player.transform.position - transform.position),
+                                                         rs * Time.deltaTime);
                     break;
                 case MoveState.Return:
-
+                    anim.SetInteger("Walk", 1);
+                    dir = Vector3.Normalize(retrun_point.transform.position - transform.position);
+                    transform.position += dir * speed * 0.5f * Time.deltaTime;
+                    transform.rotation = Quaternion.Lerp(transform.rotation,
+                                                        Quaternion.LookRotation(retrun_point.transform.position - transform.position),
+                                                         rs * Time.deltaTime);
                     break;
                 default:
                     break;
